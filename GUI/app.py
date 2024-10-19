@@ -14,7 +14,7 @@ def send_numbers_and_get_sum(num1, num2):
         return 'Error en el servidor de suma'
 
 # Interfaz gráfica de Gradio
-inputs = [gr.inputs.Number(label="Número 1"), gr.inputs.Number(label="Número 2")]
-output = gr.outputs.Textbox(label="Resultado de la suma")
+inputs = [gr.Number(label="Número 1"), gr.Number(label="Número 2")]
+output = gr.Textbox(label="Resultado de la suma")
 
 gr.Interface(fn=send_numbers_and_get_sum, inputs=inputs, outputs=output).launch(server_name="0.0.0.0")
