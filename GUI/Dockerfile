@@ -2,13 +2,13 @@
 FROM python:3.9-slim
 
 # Crear un directorio para la aplicación
-WORKDIR /ui
+WORKDIR /gui
 
 # Copiar el código a la imagen
-COPY . /ui
+COPY . /gui
 
 # Instalar las dependencias
-RUN pip install -r requirements.txt
+RUN pip install -r requirments.txt
 
 # Exponer el puerto que utilizará el servicio de Gradio
 EXPOSE 8080

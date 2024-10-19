@@ -1,11 +1,11 @@
 services:
   modelo:
-    build: ./App
+    build: ./model
     container_name: Modelo
     ports:
       - "5000:5000"
   gui:
-    build: ./GUI
+    build: ./gui
     container_name: GUI
     ports:
       - "8080:8080"
