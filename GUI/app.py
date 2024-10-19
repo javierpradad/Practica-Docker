@@ -1,7 +1,6 @@
 import gradio as gr
 import requests
 
-
 # URL del contenedor 2 (el que realiza la suma)
 SUM_SERVER_URL = "http://sum-container:5000/sum"
 

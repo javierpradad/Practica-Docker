@@ -1,5 +1,5 @@
 # Usar una imagen base de Python
-FROM python:3.14.0a1-alpine3.20
+FROM python:3.9-alpine3.20
 
 # Crear un directorio para la aplicación
 WORKDIR /gui

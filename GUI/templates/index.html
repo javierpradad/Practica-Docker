@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sumador</title>
+</head>
+<body>
+    <h1>Introduce dos números</h1>
+    <form method="post">
+        <input type="number" name="num1" required>
+        <input type="number" name="num2" required>
+        <button type="submit">Sumar</button>
+    </form>
+    {% if result is not none %}
+        <h2>Resultado: {{ result }}</h2>
+    {% endif %}
+</body>
+</html>
