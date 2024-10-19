@@ -1,25 +1,21 @@
 import gradio as gr
 import requests
-from PIL import Image
 
-# Función que interactúa con el contenedor de inferencia
-def classify_image(image):
-    img_bytes = image.tobytes()
-    # Enviar la imagen al servicio de inferencia
-    response = requests.post('http://inference:5000/predict', files={'image': img_bytes})
-    predictions = response.json()
 
-    # Formatear las predicciones para mostrarlas en la interfaz
-    result = {pred["label"]: pred["probability"] for pred in predictions}
-    return result
+# URL del contenedor 2 (el que realiza la suma)
+SUM_SERVER_URL = "http://sum-container:5000/sum"
 
-# Crear la interfaz de Gradio
-iface = gr.Interface(fn=classify_image, 
-                     inputs=gr.Image(type="pil"),
-                     outputs=gr.Label(num_top_classes=3),
-                     title="Image Classification with MobileNetV2",
-                     description="Sube una imagen para clasificarla usando MobileNetV2")
+def send_numbers_and_get_sum(num1, num2):
+    data = {'num1': num1, 'num2': num2}
+    # Realizamos una petición POST al servidor de suma
+    response = requests.post(SUM_SERVER_URL, json=data)
+    if response.status_code == 200:
+        return response.json().get('sum', 'Error al sumar')
+    else:
+        return 'Error en el servidor de suma'
 
-# Ejecutar la interfaz
-if __name__ == '__main__':
-    iface.launch(server_name="0.0.0.0", server_port=8080)
+# Interfaz gráfica de Gradio
+inputs = [gr.inputs.Number(label="Número 1"), gr.inputs.Number(label="Número 2")]
+output = gr.outputs.Textbox(label="Resultado de la suma")
+
+gr.Interface(fn=send_numbers_and_get_sum, inputs=inputs, outputs=output).launch(server_name="0.0.0.0")
