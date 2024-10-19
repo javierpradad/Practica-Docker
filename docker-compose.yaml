@@ -1,14 +1,13 @@
-version: '3'
 services:
-  Modelo:
+  modelo:
     build: ./App
     container_name: Modelo
     ports:
       - "5000:5000"
-  GUI:
+  gui:
     build: ./GUI
     container_name: GUI
     ports:
       - "8080:8080"
     depends_on:
-      - Modelo
+      - modelo
