@@ -10,5 +10,8 @@ COPY . /gui
 # Instalar las dependencias
 RUN pip install -r requirments.txt
 
+EXPOSE 8080
+ENV GRADIO_SERVER_NAME="0.0.0.0"
+
 # Comando para ejecutar la aplicación
 CMD ["python", "app.py"]

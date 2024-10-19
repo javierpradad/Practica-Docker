@@ -1,13 +1,24 @@
 services:
   modelo:
-    build: ./model
+    build: 
+      context: ./model
     container_name: Modelo
     ports:
       - "5000:5000"
+    networks:
+      - red-principal
+
   gui:
-    build: ./gui
+    build: 
+      context: ./gui
     container_name: GUI
     ports:
-      - "8080:8080"
+      - "7860:7860"
+    networks:
+      - red-principal
     depends_on:
       - modelo
+
+networks:
+  red-principal:
+    driver: bridge

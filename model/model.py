@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
-@app.route('/sum', methods=['POST'])
+@app.route('/app', methods=['POST'])
 def sum_numbers():
     data = request.get_json()
     num1 = data.get('num1', 0)

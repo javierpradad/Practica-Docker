@@ -6,4 +6,6 @@ COPY . .
 
 RUN pip install -r requirments.txt
 
+EXPOSE 5000
+
 CMD [ "python", "model.py" ]
