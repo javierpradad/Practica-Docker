@@ -1,18 +1,17 @@
-FROM python:3.9
+# Usar una imagen base de TensorFlow
+FROM tensorflow/tensorflow:2.10.0
 
-WORKDIR /code
+# Crear un directorio para la aplicación
+WORKDIR /app
 
-COPY ./requirements.txt /code/requirements.txt
+# Copiar el código a la imagen
+COPY . /app
 
-RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
+# Instalar las dependencias
+RUN pip install -r requirements.txt
 
+# Exponer el puerto que utilizará el servicio
+EXPOSE 5000
 
-RUN useradd -m -u 1000 user
-USER user
-ENV HOME=/home/user PATH=/home/user/.local/bin:$PATH
-
-WORKDIR $HOME/app
-
-COPY --chown=user . $HOME/app
-
-CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "7860"]
+# Comando para ejecutar la aplicación
+CMD ["python", "model.py"]
