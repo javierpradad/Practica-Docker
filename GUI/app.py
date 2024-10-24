@@ -1,20 +1,39 @@
 import gradio as gr
 import requests
+from PIL import Image
+import numpy as np
+import io
 
-# URL del contenedor 2 (el que realiza la suma)
-SUM_SERVER_URL = "http://sum-container:5000/sum"
+# Función que se conecta al backend y obtiene la predicción
+def predict_digit(image):
+    # Convertir la imagen en formato PNG
+    img = Image.fromarray((image * 255).astype(np.uint8))
+    buffered = io.BytesIO()
+    img.save(buffered, format="PNG")
+    buffered.seek(0)
+    
+    # Enviar la imagen al backend
+    response = requests.post(
+        "http://modelo:5000/predict", 
+        files={"file": buffered}
+    )
+    
+    # Extraer el JSON de la respuesta
+    result = response.json()
+    
+    # Mostrar la predicción en la interfaz
+    prediction_type = result.get("prediction", "Unknown")
+    prediction_value = result.get("value", "Unknown")
+    return f"Predicción: {prediction_type} ({prediction_value})"
 
-def send_numbers_and_get_sum(num1, num2):
-    data = {'num1': num1, 'num2': num2}
-    # Realizamos una petición POST al servidor de suma
-    response = requests.post(SUM_SERVER_URL, json=data)
-    if response.status_code == 200:
-        return response.json().get('sum', 'Error al sumar')
-    else:
-        return 'Error en el servidor de suma'
+# Crear la interfaz gráfica de Gradio
+iface = gr.Interface(
+    fn=predict_digit,           # Función que se llama al enviar la imagen
+    inputs="sketchpad",         # La entrada será el cuadro de dibujo
+    outputs="text",             # La salida será texto que muestra la predicción
+    live=False,                 # No es necesario hacer predicciones en vivo
+    title="Dibuja un número o letra",
+    description="Dibuja un número o letra y obtén una predicción."
+)
 
-# Interfaz gráfica de Gradio
-inputs = [gr.Number(label="Número 1"), gr.Number(label="Número 2")]
-output = gr.Textbox(label="Resultado de la suma")
-
-gr.Interface(fn=send_numbers_and_get_sum, inputs=inputs, outputs=output).launch(server_name="0.0.0.0")
+iface.launch(server_name="0.0.0.0", server_port=7860)

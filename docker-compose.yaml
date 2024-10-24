@@ -8,6 +8,6 @@ services:
     build: ./gui
     container_name: GUI
     ports:
-      - "8080:8080"
+      - "7860:7860"
     depends_on:
       - modelo
