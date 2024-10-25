@@ -1,6 +1,7 @@
 services:
   modelo:
-    build: ./model
+    build: 
+      context: ./model
     container_name: Modelo
     ports:
       - "5000:5000"
@@ -15,7 +16,8 @@ services:
         max-size: "10m"
         max-file: 3
   gui:
-    build: ./gui
+    build: 
+      context: ./gui
     container_name: GUI
     ports:
       - "7860:7860"
@@ -31,3 +33,7 @@ services:
         max-file: 3
     depends_on:
       - modelo
+
+networks:
+  red-principal:
+    driver: bridge
