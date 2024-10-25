@@ -33,7 +33,3 @@ services:
         max-file: 3
     depends_on:
       - modelo
-
-networks:
-  red-principal:
-    driver: bridge
